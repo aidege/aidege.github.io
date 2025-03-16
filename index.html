@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>数据列表</title>
+  <style>
+    /* 样式定义 - Style definitions */
+    table {
+      width: 80%;
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align: center;">数据列表</h1>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th>点击名称</th>
+        <th>链接名称</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 数据行将动态插入这里 - Data rows will be inserted here dynamically -->
+    </tbody>
+  </table>
+  
+  <script>
+    // 从 AIDBJSON.json 文件加载数据并填充表格
+    // Load data from AIDBJSON.json and populate the table
+    function loadData() {
+      fetch('AIDBJSON.json')
+        .then(response => response.json())
+        .then(data => {
+          const tbody = document.querySelector('#dataTable tbody');
+          data.forEach(item => {
+            const tr = document.createElement('tr');
+
+            // 编号 - ID
+            const tdId = document.createElement('td');
+            tdId.textContent = item.id;
+            tr.appendChild(tdId);
+
+            // 名称 - Name
+            const tdName = document.createElement('td');
+            tdName.textContent = item.name;
+            tr.appendChild(tdName);
+
+            // 点击名称 - Clickable Name (固定文字，可根据需要修改)
+            const tdClickName = document.createElement('td');
+            const aClick = document.createElement('a');
+            aClick.href = item.url;          // 跳转的链接 - The URL to jump to
+            aClick.textContent = "点击名称";   // 显示文本 - Display text
+            aClick.target = "_blank";        // 新标签页打开 - Open in a new tab
+            tdClickName.appendChild(aClick);
+            tr.appendChild(tdClickName);
+
+            // 链接名称 - Link Name (显示 JSON 中的 linkName 字段)
+            const tdLinkName = document.createElement('td');
+            const aLink = document.createElement('a');
+            aLink.href = item.url;
+            aLink.textContent = item.linkName;
+            aLink.target = "_blank";
+            tdLinkName.appendChild(aLink);
+            tr.appendChild(tdLinkName);
+
+            tbody.appendChild(tr);
+          });
+        })
+        .catch(error => {
+          console.error('加载 JSON 数据时出错:', error);
+        });
+    }
+    // 页面加载完成后执行数据加载
+    // Call loadData after page load
+    window.onload = loadData;
+  </script>
+</body>
+</html>
