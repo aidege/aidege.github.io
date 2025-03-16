@@ -16,5 +16,11 @@
       "ai_name": "chatgpt",
       "description": "chatgpt ai",
       "url": "https://chatgpt.com/"
+    },
+    {
+      "id": 4,
+      "ai_name": "Google AI Studio",
+      "description": "Google AI Studio",
+      "url": "https://aistudio.google.com/prompts/new_chat"
     }
 ]
