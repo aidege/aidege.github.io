@@ -1,113 +1,93 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 导航</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-            background-color: #f8f9fa;
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border-radius: 5px;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            color: #333;
-        }
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            table {
-                font-size: 14px;
-            }
-            th, td {
-                padding: 8px 10px;
-            }
-        }
-    </style>
+<title>JSON 数据表格</title>
+<style>
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>
 </head>
 <body>
-    <h1>AI 导航</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>编号</th>
-                <th>名称</th>
-                <th>描述</th>
-                <th>链接</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- 数据将通过 JavaScript 动态插入 -->
-        </tbody>
-    </table>
 
-    <script>
-        fetch('AIDBJSON.json')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('tableBody');
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    
-                    // 编号列
-                    const idCell = document.createElement('td');
-                    idCell.textContent = item.id;
-                    row.appendChild(idCell);
-                    
-                    // 名称列
-                    const nameCell = document.createElement('td');
-                    nameCell.textContent = item.ai_name;
-                    row.appendChild(nameCell);
-                    
-                    // 描述列
-                    const descCell = document.createElement('td');
-                    descCell.textContent = item.description;
-                    row.appendChild(descCell);
-                    
-                    // 链接列
-                    const linkCell = document.createElement('td');
-                    const link = document.createElement('a');
-                    link.href = item.url;
-                    link.textContent = '访问';
-                    link.target = '_blank';
-                    linkCell.appendChild(link);
-                    row.appendChild(linkCell);
-                    
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error('加载数据时出错:', error);
-            });
-    </script>
+<h1>AIDB 数据</h1>
+
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>描述</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 数据将动态插入到这里 -->
+    </tbody>
+</table>
+
+<script>
+// JavaScript 代码
+function loadData() {
+  fetch('AIDBJSON.json')
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.querySelector('#dataTable tbody');
+      tableBody.innerHTML = ''; // 清空表格
+
+      data.forEach(item => {
+        const row = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        const nameLink = document.createElement('a');
+        nameLink.href = item.url;
+        nameLink.textContent = item.ai_name; // 使用 ai_name 字段
+        nameLink.target = '_blank'; // 在新标签页打开
+        nameCell.appendChild(nameLink);
+        row.appendChild(nameCell);
+
+        const descriptionCell = document.createElement('td');
+        descriptionCell.textContent = item.description;
+        row.appendChild(descriptionCell);
+
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('读取 JSON 文件时出错:', error);
+      const tableBody = document.querySelector('#dataTable tbody');
+      tableBody.innerHTML = '<tr><td colspan="2">加载数据时出错。</td></tr>';
+    });
+}
+
+// 页面加载时加载数据
+window.onload = loadData;
+</script>
+
 </body>
 </html>
