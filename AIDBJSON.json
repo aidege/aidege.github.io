@@ -1,14 +1,14 @@
 [
     {
       "id": 1,
-      "name": "windsurf",
-      "linkName": "windsurf",
+      "ai_name": "windsurf",
+      "description": "windsurf",
       "url": "https://codeium.com/windsurf"
     },
     {
       "id": 2,
-      "name": "示例二",
-      "linkName": "访问示例二",
-      "url": "https://codeium.com/windsurf"
+      "ai_name": "gemini",
+      "description": "google ai",
+      "url": "https://gemini.google.com/app"
     }
 ]
