@@ -10,5 +10,11 @@
       "ai_name": "gemini",
       "description": "google ai",
       "url": "https://gemini.google.com/app"
+    },
+    {
+      "id": 3,
+      "ai_name": "chatgpt",
+      "description": "chatgpt ai",
+      "url": "https://chatgpt.com/"
     }
 ]
